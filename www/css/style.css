@@ -9,6 +9,12 @@
   cursor: url('http://ionicframework.com/img/finger.png'), auto;
 }
 
+.user {
+	padding-top: 24px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
 #verify {
   color: #333;
   padding: 16px;
