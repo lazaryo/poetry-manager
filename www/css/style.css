@@ -1,0 +1,45 @@
+/* Empty. Add your own CSS if you like */
+* {
+	margin: 0;
+	padding: 0;
+  	cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
+
+*:hover {
+  cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
+
+#verify {
+  color: #333;
+  padding: 16px;
+}
+
+.img {
+  width: 100%;
+}
+
+.img img {
+  width: 100%;
+}
+
+.list {
+	border: 1px solid rgb(221, 221, 221);
+	border-top: none;
+	margin-top: -5px;
+}
+
+.item.item-checkbox {
+	margin-bottom: -2px;
+}
+
+.home, .poetry-list {
+	padding: 24px 16px 16px 16px;
+}
+
+.form-type-section {
+	margin-top: 20px;
+}
+
+.form-type {
+	font-weight: bold;
+}

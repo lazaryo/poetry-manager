@@ -1,0 +1,46 @@
+<ion-view>
+	<ion-nav-title>
+  		<h1 class="title">Manage Poems</h1>
+	</ion-nav-title>
+ 	<ion-content class="poetry-list">
+ 		<button class="button button-icon icon ion-ios-minus-outline"
+        		ng-click="data.showDelete = !data.showDelete;"> Delete a poem</button>
+		<ion-list show-delete="data.showDelete" class="form-type-section">
+			<ion-item class="form-type">Haiku---</ion-item>
+			<ion-item class="item-remove-animate"
+					  ng-repeat="poem in poetry"
+					  ng-show="poem.formType=='Haiku'">
+					   <ion-delete-button class="ion-ios-minus-outline" 
+                            ng-click="removePoem(poem.$id); showPoem(poem.$id)">
+          				</ion-delete-button>
+					  {{poem.title}}
+			</ion-item>
+		</ion-list>
+
+		<ion-list show-delete="data.showDelete" class="form-type-section">
+			<ion-item class="form-type">Pantoum---</ion-item>
+			<ion-item class="item-remove-animate"
+					  ng-repeat="poem in poetry"
+					  ng-show="poem.formType=='Pantoum'">
+					   <ion-delete-button class="ion-ios-minus-outline" 
+                            ng-click="removePoem(poem.$id); showPoem(poem.$id)">
+          				</ion-delete-button>
+					  {{poem.title}}
+			</ion-item>
+		</ion-list>
+
+		<ion-list show-delete="data.showDelete" class="form-type-section">
+			<ion-item class="form-type">Prose---</ion-item>
+			<ion-item class="item-remove-animate"
+					  ng-repeat="poem in poetry"
+					  ng-show="poem.formType=='Prose'">
+					   <ion-delete-button class="ion-ios-minus-outline" 
+                            ng-click="removePoem(poem.$id); showPoem(poem.$id)">
+          				</ion-delete-button>
+					  {{poem.title}}
+			</ion-item>
+		</ion-list>
+
+		<button class="button button-block button-calm" ng-click="scrollTop()">back to the top</button>
+	</ion-content>
+</ion-view>
