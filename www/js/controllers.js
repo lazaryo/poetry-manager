@@ -17,7 +17,7 @@ angular.module('poetryManager.controllers', [])
 })
 
 .factory('ImageUpload', function($firebaseArray) {
-  var APIUrl = 'https://poetry-gallery.firebaseio.com/';
+  var APIUrl = 'https://poetry-prototype.firebaseio.com/';
   var ref = new Firebase(APIUrl);
   var postsRef = ref.child('images');
   return {
@@ -28,16 +28,9 @@ angular.module('poetryManager.controllers', [])
 })
 
 .factory('poetryList', function($firebaseArray) {
-  var APIUrl = 'https://poetry-prototype.firebaseio.com/';
+  var APIUrl = 'https://poetry-prototype.firebaseio.com/poems/';
   var ref = new Firebase(APIUrl);
   return $firebaseArray(ref);
-})
-
-.factory('poetryUsers', function($firebaseArray) {
-  var APIUrl = 'https://poetry-gallery.firebaseio.com/';
-  var ref = new Firebase(APIUrl);
-  var postsRef = ref.child('users');
-  return $firebaseArray(postsRef);
 })
 
 .controller('poetryCtrl', function($scope, $ionicScrollDelegate, poetryList) {
@@ -48,7 +41,7 @@ angular.module('poetryManager.controllers', [])
   };
 
   $scope.removePoem = function(val) {
-    var poem = new Firebase('https://poetry-prototype.firebaseio.com/' + val);
+    var poem = new Firebase('https://poetry-prototype.firebaseio.com/poems/' + val);
     poem.remove();
   };
 
@@ -63,7 +56,7 @@ angular.module('poetryManager.controllers', [])
   $scope.verifyImage = function(id, alternate){
     $scope.verification = id;
     $scope.alternate = alternate;
-    var agu = new Firebase('https://poetry-gallery.firebaseio.com/images/' + $scope.verification);
+    var agu = new Firebase('https://poetry-prototype.firebaseio.com/images/' + $scope.verification);
     if ($scope.alternate) {
       agu.update({verified: true});
       console.log($scope.verification + ' is now true');
@@ -80,7 +73,7 @@ angular.module('poetryManager.controllers', [])
   }
 
   $scope.delete = function(id){
-    var removeImage = new Firebase('https://poetry-gallery.firebaseio.com/images/' + id);
+    var removeImage = new Firebase('https://poetry-prototype.firebaseio.com/images/' + id);
     removeImage.remove();
     console.log(id + ' was deleted');
   }
