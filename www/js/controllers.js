@@ -9,9 +9,6 @@ angular.module('poetryManager.controllers', [])
       shouldAnimate: true
     });
   }
-  $scope.addAccount = function(){
-    console.log('Adding Account...');
-  }
 })
 
 .controller('SpeakerCtrl', function($scope, $stateParams, Speakers) {

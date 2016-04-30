@@ -25,27 +25,29 @@ angular.module('poetryManager.services', ['firebase'])
     id: 0,
     name: 'Malik Hemphill',
     notes: 'Enjoys writing things',
-    face: 'https://upload.wikimedia.org/wikipedia/en/0/0d/The_xx_logo.jpg'
+    face: 'img/malik_hemphill.jpg'
   }, {
     id: 1,
     name: 'Andrew Price',
     notes: 'Odd obsession with everything',
-    face: 'https://upload.wikimedia.org/wikipedia/en/0/0d/The_xx_logo.jpg'
+    face: 'img/andrew_price.jpg'
   }, {
     id: 2,
     name: 'Isaac Reede',
     notes: 'Wears a sweet leather Jacket for peace',
-    face: 'https://upload.wikimedia.org/wikipedia/en/0/0d/The_xx_logo.jpg'
+    face: 'img/isaac_reede.jpg'
   }, {
     id: 3,
     name: 'Daniela Andrade',
-    notes: 'I think she needs to buy a boat',
-    face: 'https://upload.wikimedia.org/wikipedia/en/0/0d/The_xx_logo.jpg'
+    notes: 'A muse that sings',
+    // face: 'img/daniela_andrade.jpg'
+    face: 'img/daniela_andrade2.jpg'
   }, {
     id: 4,
     name: 'Amelia Brown',
-    notes: 'Just the nicest woman',
-    face: 'https://upload.wikimedia.org/wikipedia/en/0/0d/The_xx_logo.jpg'
+    notes: 'Just the loveliest INFJ',
+    face: 'img/amelia_brown.jpg'
+    // face: 'img/amelia_brown2.jpg'
   }];
 
   return {
