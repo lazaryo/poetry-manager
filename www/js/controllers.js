@@ -2,8 +2,25 @@ angular.module('poetryManager.controllers', [])
 
 .controller('AppCtrl', function() {})
 
+.controller('SpeakersCtrl', function($scope, $ionicScrollDelegate, Speakers, poetryUsers) {
+  $scope.speakers = Speakers.all();
+  $scope.scrollTop = function(){
+    $ionicScrollDelegate.scrollTop({
+      shouldAnimate: true
+    });
+  }
+  $scope.addAccount = function(){
+    console.log('Adding Account...');
+  }
+})
+
+.controller('SpeakerCtrl', function($scope, $stateParams, Speakers) {
+  console.log($stateParams);
+  $scope.speaker = Speakers.get($stateParams.speakerId);
+})
+
 .factory('ImageUpload', function($firebaseArray) {
-  var APIUrl = 'https://poetry-prototype.firebaseio.com/';
+  var APIUrl = 'https://poetry-gallery.firebaseio.com/';
   var ref = new Firebase(APIUrl);
   var postsRef = ref.child('images');
   return {
@@ -14,9 +31,16 @@ angular.module('poetryManager.controllers', [])
 })
 
 .factory('poetryList', function($firebaseArray) {
-  var APIUrl = 'https://poetry-prototype.firebaseio.com/poems/';
+  var APIUrl = 'https://poetry-prototype.firebaseio.com/';
   var ref = new Firebase(APIUrl);
   return $firebaseArray(ref);
+})
+
+.factory('poetryUsers', function($firebaseArray) {
+  var APIUrl = 'https://poetry-gallery.firebaseio.com/';
+  var ref = new Firebase(APIUrl);
+  var postsRef = ref.child('users');
+  return $firebaseArray(postsRef);
 })
 
 .controller('poetryCtrl', function($scope, $ionicScrollDelegate, poetryList) {
@@ -27,7 +51,7 @@ angular.module('poetryManager.controllers', [])
   };
 
   $scope.removePoem = function(val) {
-    var poem = new Firebase('https://poetry-prototype.firebaseio.com/poems/' + val);
+    var poem = new Firebase('https://poetry-prototype.firebaseio.com/' + val);
     poem.remove();
   };
 
@@ -42,7 +66,7 @@ angular.module('poetryManager.controllers', [])
   $scope.verifyImage = function(id, alternate){
     $scope.verification = id;
     $scope.alternate = alternate;
-    var agu = new Firebase('https://poetry-prototype.firebaseio.com/images/' + $scope.verification);
+    var agu = new Firebase('https://poetry-gallery.firebaseio.com/images/' + $scope.verification);
     if ($scope.alternate) {
       agu.update({verified: true});
       console.log($scope.verification + ' is now true');
@@ -59,7 +83,7 @@ angular.module('poetryManager.controllers', [])
   }
 
   $scope.delete = function(id){
-    var removeImage = new Firebase('https://poetry-prototype.firebaseio.com/images/' + id);
+    var removeImage = new Firebase('https://poetry-gallery.firebaseio.com/images/' + id);
     removeImage.remove();
     console.log(id + ' was deleted');
   }

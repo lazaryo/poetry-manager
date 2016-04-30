@@ -62,8 +62,27 @@ angular.module('poetryManager', ['ionic', 'poetryManager.controllers', 'poetryMa
         controller: 'imageCtrl'
       }
     }
+  })
+
+  .state('app.users', {
+    url: '/users',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/users.html',
+        controller: 'SpeakersCtrl'
+      }
+    }
+  })
+
+  .state('app.user', {
+    url: '/user/:speakerId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/user.html',
+        controller: 'SpeakerCtrl'
+      }
+    }
   });
-  
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
 });
