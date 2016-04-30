@@ -2,7 +2,7 @@ angular.module('poetryManager.controllers', [])
 
 .controller('AppCtrl', function() {})
 
-.controller('SpeakersCtrl', function($scope, $ionicScrollDelegate, Speakers, poetryUsers) {
+.controller('SpeakersCtrl', function($scope, $ionicScrollDelegate, Speakers) {
   $scope.speakers = Speakers.all();
   $scope.scrollTop = function(){
     $ionicScrollDelegate.scrollTop({
