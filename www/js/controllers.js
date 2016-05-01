@@ -20,7 +20,7 @@ angular.module('poetryManager.controllers', [])
   $scope.accounts = Accounts.profiles();
 })
 
-.controller('profileCtrl', function($scope, $stateParams, $firebaseArray, $firebaseObject, Accounts, ImageUpload) {
+.controller('profileCtrl', function($scope, $stateParams, $firebaseArray, $cordovaCamera, $ionicActionSheet, $firebaseObject, Accounts, ImageUpload) {
   // console.log($stateParams);
   
   $scope.accounts = Accounts.profiles();
@@ -29,37 +29,32 @@ angular.module('poetryManager.controllers', [])
   var uniqueRef = unique.child($scope.account);
   $scope.profile = $firebaseObject(uniqueRef);
   
-  console.log($scope.profile);
   $scope.getUser = function () {
-      var ref =  new Firebase('https://poetry-prototype.firebaseio.com/')
-      var userRef = ref.child('profiles');
+    var ref =  new Firebase('https://poetry-prototype.firebaseio.com/')
+    var userRef = ref.child('profiles');
     $scope.users = $firebaseArray(userRef);
     return $scope.users
   }
   $scope.getUser();
 
-  $scope.adminStatus = function(id, status) {
+  $scope.adminStatus = function(id, status, name) {
     $scope.userID = id;
     $scope.status = status;
+    $scope.name = name
     var agu = new Firebase('https://poetry-prototype.firebaseio.com/profiles/' + $scope.userID);
     if ($scope.status) {
       agu.update({admin: true});
-      console.log($scope.userID + ' is now true');
+      console.log($scope.name + ' is now an admin');
     } else {
       agu.update({admin: false});
-      console.log($scope.userID + ' is now false');
+      console.log($scope.name + ' is no longer an admin');
     }
   }
 
-    function addPhoto(img) {
-    ImageUpload.images().$add({
-      img: img ? img : null,
-      timestamp: new Date().getTime(),
-      verified: false
-    });
+  function updatePhoto(img) {
+    console.log(img);
+    $scope.noob = img;
   }
-
-  $scope.images = ImageUpload.images();
 
   $scope.takePicture = function() {
     $ionicActionSheet.show({
@@ -70,15 +65,15 @@ angular.module('poetryManager.controllers', [])
       }, {
         text: 'Saved Photo'
       }],
-      titleText: 'Upload...',
+      titleText: 'Change Profile Picture',
       cancelText: 'Cancel',
       buttonClicked: function(index) {
-        ionic.Platform.isWebView() ? takeARealPicture(index) : takeAFakePicture();
+        ionic.Platform.isWebView() ? newProfilePicture(index) : newFakePicture();
         return true;
       }
     });
 
-    function takeARealPicture(cameraIndex) {
+    function newProfilePicture(cameraIndex) {
       var options = {
         quality: 50,
         sourceType: cameraIndex === 2 ? 2 : 1,
@@ -86,20 +81,22 @@ angular.module('poetryManager.controllers', [])
         destinationType: Camera.DestinationType.DATA_URL,
         encodingType: Camera.EncodingType.JPEG,
         targetWidth: 500,
+        targetHeight: 500,
         saveToPhotoAlbum: false
       };
       $cordovaCamera.getPicture(options).then(function(imageData) {
         var photo = 'data:image/jpeg;base64,' + imageData;
-        addPhoto(photo);
+        $scope.photon = photo;
+        updatePhoto(photo);
       }, function(err) {
         // error
         console.error(err);
-        takeAFakePicture();
+        newFakePicture();
       });
     }
 
-    function takeAFakePicture() {
-      addPhoto($cordovaCamera.getPlaceholder());
+    function configureFakePicture() {
+      console.log('Added fake picture');
     }
   };
 })

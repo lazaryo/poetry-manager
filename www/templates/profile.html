@@ -7,11 +7,15 @@
         <p>{{profile.email}}</p>
         <p>Founder: <b>{{profile.founder}}</b></p>
         <p>Admin: <b>{{profile.admin}}</b></p>
-        <a style="margin:0 auto" class="button button-block button-clear button-dark" ng-click="changePicture()">
+        <a style="margin:0 auto"
+           class="button button-block button-clear button-dark"
+           ng-click="$watch(takePicture(), getIt(profile.$id))">
 			<i class="icon ion-camera"> Change Profile Picture</i>
 		</a>
       </div>
     </div>
+    {{photon}}
+    {{img}}
     <div class="manage-profiles" ng-show="profile.founder">
 		<h2>Profiles</h2>
 		<p>Change Admin status of profiles.</p>
@@ -19,7 +23,7 @@
 			<ion-toggle
 				ng-disabled="user.founder"
 				ng-repeat="user in users"
-				ng-click="adminStatus(user.$id, user.admin)"
+				ng-click="adminStatus(user.$id, user.admin, user.name)"
 				ng-model="user.admin" 
 				ng-checked="user.admin">
 				{{user.name}}
