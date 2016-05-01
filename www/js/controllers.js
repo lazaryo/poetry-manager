@@ -1,4 +1,4 @@
-angular.module('poetryManager.controllers', [])
+angular.module('poetryManager.controllers', ['firebase'])
 
 .controller('AppCtrl', function() {})
 
@@ -60,7 +60,26 @@ angular.module('poetryManager.controllers', [])
   // function gets executed... any help would be nice!!!
   function updatePhoto(img) {
     $scope.noob = img;
-  } 
+    $scope.changeIt($scope.noob)
+  }
+
+  $scope.changeIt = function (val, img) {
+    $scope.change = val;
+    $scope.furl = 'https://poetry-prototype.firebaseio.com/profiles/';
+    var ref = new Firebase($scope.furl);
+    faceRef = ref.child($scope.change);
+    faceRef.update({
+      "face": img
+    });
+  }
+
+  $scope.getIt = function (val) {
+    $scope.user = val;
+    // var ref = new Firebase('https://poetry-prototype.firebaseio.com/' + $scope.user + '/face');
+    // ref.update({face: 'new face'});
+    console.log($scope.user);
+    // return ref;
+  }
 
   $scope.takePicture = function() {
     $ionicActionSheet.show({
