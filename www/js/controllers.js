@@ -51,37 +51,16 @@ angular.module('poetryManager.controllers', ['firebase'])
     }
   }
 
-  // Here is where i need to get the link of the profile currently viewing
-  // then update the profile picture by replacing the current one with
-  // the photo taken/chosen from the camera functions below
-
-  // I could create a service just to get the link to the profile in
-  // Firebase so that it'll be easy to call the factory every time this
-  // function gets executed... any help would be nice!!!
-  function updatePhoto(img) {
+  // get the img data and id of profile to update profile picture
+  function updatePhoto(img, thisId) {
     $scope.noob = img;
-    $scope.changeIt($scope.noob)
+    $scope.thisId = thisId;
+    var juno = new Firebase('https://poetry-prototype.firebaseio.com/profiles/' + $scope.thisId);
+    juno.update({face: $scope.noob});  
   }
 
-  $scope.changeIt = function (val, img) {
-    $scope.change = val;
-    $scope.furl = 'https://poetry-prototype.firebaseio.com/profiles/';
-    var ref = new Firebase($scope.furl);
-    faceRef = ref.child($scope.change);
-    faceRef.update({
-      "face": img
-    });
-  }
-
-  $scope.getIt = function (val) {
-    $scope.user = val;
-    // var ref = new Firebase('https://poetry-prototype.firebaseio.com/' + $scope.user + '/face');
-    // ref.update({face: 'new face'});
-    console.log($scope.user);
-    // return ref;
-  }
-
-  $scope.takePicture = function() {
+  $scope.takePicture = function(val) {
+    $scope.hmm = val;
     $ionicActionSheet.show({
       buttons: [{
         text: 'Picture'
@@ -93,12 +72,12 @@ angular.module('poetryManager.controllers', ['firebase'])
       titleText: 'Change Profile Picture',
       cancelText: 'Cancel',
       buttonClicked: function(index) {
-        ionic.Platform.isWebView() ? newProfilePicture(index) : newFakePicture();
+        ionic.Platform.isWebView() ? newProfilePicture(index, $scope.hmm) : newFakePicture();
         return true;
       }
     });
 
-    function newProfilePicture(cameraIndex) {
+    function newProfilePicture(cameraIndex, huh) {
       var options = {
         quality: 50,
         sourceType: cameraIndex === 2 ? 2 : 1,
@@ -111,7 +90,7 @@ angular.module('poetryManager.controllers', ['firebase'])
       };
       $cordovaCamera.getPicture(options).then(function(imageData) {
         var photo = 'data:image/jpeg;base64,' + imageData;
-        updatePhoto(photo);
+        updatePhoto(photo, huh);
       }, function(err) {
         // error
         console.error(err);
@@ -119,7 +98,7 @@ angular.module('poetryManager.controllers', ['firebase'])
       });
     }
 
-    function configureFakePicture() {
+    function newFakePicture() {
       console.log('Added fake picture');
     }
   };
