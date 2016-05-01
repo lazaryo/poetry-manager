@@ -1,0 +1,30 @@
+<ion-view view-title="Profile">
+  <ion-content class="user">
+    <div class="list card">
+      <div class="item item-body">
+        <img class="full-image" ng-src="{{profile.face}}">
+        <h2>{{profile.name}}</h2>
+        <p>{{profile.email}}</p>
+        <p>Founder: <b>{{profile.founder}}</b></p>
+        <p>Admin: <b>{{profile.admin}}</b></p>
+        <a style="margin:0 auto" class="button button-block button-clear button-dark" ng-click="changePicture()">
+			<i class="icon ion-camera"> Change Profile Picture</i>
+		</a>
+      </div>
+    </div>
+    <div class="manage-profiles" ng-show="profile.founder">
+		<h2>Profiles</h2>
+		<p>Change Admin status of profiles.</p>
+		<ul class="list">
+			<ion-toggle
+				ng-disabled="user.founder"
+				ng-repeat="user in users"
+				ng-click="adminStatus(user.$id, user.admin)"
+				ng-model="user.admin" 
+				ng-checked="user.admin">
+				{{user.name}}
+			</ion-toggle>
+		</ul>
+    </div>
+  </ion-content>
+</ion-view>

@@ -15,6 +15,26 @@ angular.module('poetryManager.services', ['firebase'])
 })
 
 /**
+ * Get list of accounts
+ */
+.factory('Accounts', function($firebaseArray) {
+  var APIUrl = 'https://poetry-prototype.firebaseio.com/';
+  var ref = new Firebase(APIUrl);
+  var postsRef = ref.child('profiles');
+  var profiles = $firebaseArray(postsRef);
+  return {
+    profiles: function() {
+      return $firebaseArray(postsRef);
+    },
+    get: function(profileId) {
+      // Simple index lookup
+      return profileId
+    }
+  };
+
+})
+
+/**
  * A simple example service that returns some data.
  */
 .factory('Speakers', function() {

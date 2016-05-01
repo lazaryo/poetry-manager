@@ -15,6 +15,10 @@
 	padding-right: 8px;
 }
 
+.manage-profiles {
+	padding: 8px;
+}
+
 #verify {
   color: #333;
   padding: 16px;
@@ -36,6 +40,10 @@
 
 .item.item-checkbox {
 	margin-bottom: -2px;
+}
+
+.profiles {
+	padding: 16px;
 }
 
 .home, .poetry-list {

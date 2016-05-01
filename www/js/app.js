@@ -64,6 +64,26 @@ angular.module('poetryManager', ['ionic', 'poetryManager.controllers', 'poetryMa
     }
   })
 
+  .state('app.profiles', {
+    url: '/profiles',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/profiles.html',
+        controller: 'profilesCtrl'
+      }
+    }
+  })
+
+  .state('app.profile', {
+    url: '/profile/:profileId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/profile.html',
+        controller: 'profileCtrl'
+      }
+    }
+  })
+
   .state('app.users', {
     url: '/users',
     views: {

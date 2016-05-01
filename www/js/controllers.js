@@ -16,6 +16,94 @@ angular.module('poetryManager.controllers', [])
   $scope.speaker = Speakers.get($stateParams.speakerId);
 })
 
+.controller('profilesCtrl', function($scope, Accounts) {
+  $scope.accounts = Accounts.profiles();
+})
+
+.controller('profileCtrl', function($scope, $stateParams, $firebaseArray, $firebaseObject, Accounts, ImageUpload) {
+  // console.log($stateParams);
+  
+  $scope.accounts = Accounts.profiles();
+  $scope.account = Accounts.get($stateParams.profileId);
+  var unique = new Firebase('https://poetry-prototype.firebaseio.com/profiles/');
+  var uniqueRef = unique.child($scope.account);
+  $scope.profile = $firebaseObject(uniqueRef);
+  
+  console.log($scope.profile);
+  $scope.getUser = function () {
+      var ref =  new Firebase('https://poetry-prototype.firebaseio.com/')
+      var userRef = ref.child('profiles');
+    $scope.users = $firebaseArray(userRef);
+    return $scope.users
+  }
+  $scope.getUser();
+
+  $scope.adminStatus = function(id, status) {
+    $scope.userID = id;
+    $scope.status = status;
+    var agu = new Firebase('https://poetry-prototype.firebaseio.com/profiles/' + $scope.userID);
+    if ($scope.status) {
+      agu.update({admin: true});
+      console.log($scope.userID + ' is now true');
+    } else {
+      agu.update({admin: false});
+      console.log($scope.userID + ' is now false');
+    }
+  }
+
+    function addPhoto(img) {
+    ImageUpload.images().$add({
+      img: img ? img : null,
+      timestamp: new Date().getTime(),
+      verified: false
+    });
+  }
+
+  $scope.images = ImageUpload.images();
+
+  $scope.takePicture = function() {
+    $ionicActionSheet.show({
+      buttons: [{
+        text: 'Picture'
+      }, {
+        text: 'Selfie'
+      }, {
+        text: 'Saved Photo'
+      }],
+      titleText: 'Upload...',
+      cancelText: 'Cancel',
+      buttonClicked: function(index) {
+        ionic.Platform.isWebView() ? takeARealPicture(index) : takeAFakePicture();
+        return true;
+      }
+    });
+
+    function takeARealPicture(cameraIndex) {
+      var options = {
+        quality: 50,
+        sourceType: cameraIndex === 2 ? 2 : 1,
+        cameraDirection: cameraIndex,
+        destinationType: Camera.DestinationType.DATA_URL,
+        encodingType: Camera.EncodingType.JPEG,
+        targetWidth: 500,
+        saveToPhotoAlbum: false
+      };
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        var photo = 'data:image/jpeg;base64,' + imageData;
+        addPhoto(photo);
+      }, function(err) {
+        // error
+        console.error(err);
+        takeAFakePicture();
+      });
+    }
+
+    function takeAFakePicture() {
+      addPhoto($cordovaCamera.getPlaceholder());
+    }
+  };
+})
+
 .factory('ImageUpload', function($firebaseArray) {
   var APIUrl = 'https://poetry-prototype.firebaseio.com/';
   var ref = new Firebase(APIUrl);
