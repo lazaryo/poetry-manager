@@ -51,10 +51,16 @@ angular.module('poetryManager.controllers', [])
     }
   }
 
+  // Here is where i need to get the link of the profile currently viewing
+  // then update the profile picture by replacing the current one with
+  // the photo taken/chosen from the camera functions below
+
+  // I could create a service just to get the link to the profile in
+  // Firebase so that it'll be easy to call the factory every time this
+  // function gets executed... any help would be nice!!!
   function updatePhoto(img) {
-    console.log(img);
     $scope.noob = img;
-  }
+  } 
 
   $scope.takePicture = function() {
     $ionicActionSheet.show({
@@ -86,7 +92,6 @@ angular.module('poetryManager.controllers', [])
       };
       $cordovaCamera.getPicture(options).then(function(imageData) {
         var photo = 'data:image/jpeg;base64,' + imageData;
-        $scope.photon = photo;
         updatePhoto(photo);
       }, function(err) {
         // error
