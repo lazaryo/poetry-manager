@@ -49,7 +49,7 @@
       <ion-list show-delete="data.showDelete">
         <ion-item class="item-remove-animate" ng-repeat="user in users">
             <ion-delete-button class="ion-ios-minus-outline" 
-            ng-disabled="user.founder" ng-click="showConfirm(user.$id, user.name, user.email)"></ion-delete-button>
+            ng-disabled="user.founder" ng-click="confirmDelete(user.$id, user.name, user.email)"></ion-delete-button>
             {{user.name}}
             <span class="profile-status calm" ng-show="user.founder && user.admin && !data.showDelete">Founder</span>
             <span class="profile-status assertive" ng-show="!user.founder && user.admin && !data.showDelete">Admin</span>
