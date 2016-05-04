@@ -28,7 +28,7 @@ angular.module('poetryManager.controllers', ['firebase'])
   };
 
    // A confirm dialog
-   $scope.showConfirm = function(theirId, name) {
+   $scope.showConfirm = function(theirId, name, email) {
      var confirmPopup = $ionicPopup.confirm({
       title: 'Delete ' + name,
        template: 'Are you sure you want to delete this profile?'
@@ -36,9 +36,31 @@ angular.module('poetryManager.controllers', ['firebase'])
 
      confirmPopup.then(function(res) {
        if(res) {
-         console.log('You want to delete' + name);
+          var removePerson = new Firebase('https://poetry-prototype.firebaseio.com/profiles/' + theirId);
+          removePerson.remove();
+          var ref = new Firebase("https://poetry-prototype.firebaseio.com");
+          ref.removeUser({
+            email: email,
+            password: "password"
+          }, function(error) {
+            if (error) {
+              switch (error.code) {
+                case "INVALID_USER":
+                  console.log("The specified user account does not exist.");
+                  break;
+                case "INVALID_PASSWORD":
+                  console.log("The specified user account password is incorrect.");
+                  break;
+                default:
+                  console.log("Error removing user:", error);
+              }
+            } else {
+              console.log("User account deleted successfully!");
+            }
+          });
+          console.log('You want to delete ' + name);
        } else {
-         console.log('You don\'t want to delete' + name);
+          console.log('You don\'t want to delete ' + name);
        }
      });
    };
