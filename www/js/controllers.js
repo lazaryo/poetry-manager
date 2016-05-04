@@ -20,8 +20,33 @@ angular.module('poetryManager.controllers', ['firebase'])
   $scope.accounts = Accounts.profiles();
 })
 
-.controller('profileCtrl', function($scope, $stateParams, $firebaseArray, $cordovaCamera, $ionicActionSheet, $firebaseObject, Accounts, ImageUpload) {
+.controller('profileCtrl', function($scope, $ionicPopup, $stateParams, $firebaseArray, $cordovaCamera, $ionicActionSheet, $firebaseObject, Accounts, ImageUpload) {
   // console.log($stateParams);
+
+  $scope.data = {
+    showDelete: false
+  };
+
+   // A confirm dialog
+   $scope.showConfirm = function(theirId, name) {
+     var confirmPopup = $ionicPopup.confirm({
+      title: 'Delete ' + name,
+       template: 'Are you sure you want to delete this profile?'
+     });
+
+     confirmPopup.then(function(res) {
+       if(res) {
+         console.log('You want to delete' + name);
+       } else {
+         console.log('You don\'t want to delete' + name);
+       }
+     });
+   };
+
+  $scope.removeProfile = function() {
+    $scope.idk = 'Removed Profile';
+    console.log($scope.idk);
+  }
 
   $scope.accounts = Accounts.profiles();
   $scope.account = Accounts.get($stateParams.profileId);

@@ -19,10 +19,10 @@
         <p ng-show="visible">{{profile.email}}</p>
         <input type="text" ng-hide="visible" ng-model="their.email" value="{{their.email}}">
 
-        <p ng-show="profile.founder" class="calm">Founder</p>
-        <p ng-show="profile.admin" class="assertive">Admin</p>
+        <p ng-show="profile.founder && profile.admin" class="calm">Founder</p>
+        <p ng-show="!profile.founder && profile.admin" class="assertive">Admin</p>
         <p class="strike" ng-hide="profile.admin"><s>Admin</s></p>
-        <a style="margin:0 auto"
+        <a style="margin: 0 auto"
            class="button button-block button-clear button-dark"
            ng-click="$watch(takePicture(profile.$id))">
     			 <i class="icon ion-camera"> Change Profile Picture</i>
@@ -31,18 +31,35 @@
     </div>
 
     <div class="manage-profiles" ng-show="profile.founder">
-		<h2>Profiles</h2>
-		<p>Change Admin status of profiles.</p>
-		<ul class="list">
-			<ion-toggle
-				ng-disabled="user.founder"
-				ng-repeat="user in users"
-				ng-click="adminStatus(user.$id, user.admin, user.name)"
-				ng-model="user.admin" 
-				ng-checked="user.admin">
-				{{user.name}}
-			</ion-toggle>
-		</ul>
+  		<h2>Profiles</h2>
+  		<p>Change Admin status of profiles.</p>
+  		<ul class="list" show-delete="data.showDelete">
+  			<ion-toggle
+          class="item-remove-animate toggle-assertive"
+  				ng-disabled="user.founder"
+  				ng-repeat="user in users"
+  				ng-click="adminStatus(user.$id, user.admin, user.name)"
+  				ng-model="user.admin" 
+  				ng-checked="user.admin">
+  				{{user.name}}
+  			</ion-toggle>
+  		</ul>
+
+      <p>Delete an entire profile</p>
+      <ion-list show-delete="data.showDelete">
+        <ion-item class="item-remove-animate" ng-repeat="user in users">
+            <ion-delete-button class="ion-ios-minus-outline" 
+            ng-disabled="user.founder" ng-click="showConfirm(user.$id,user.name)"></ion-delete-button>
+            {{user.name}}
+            <span class="profile-status calm" ng-show="user.founder && user.admin && !data.showDelete">Founder</span>
+            <span class="profile-status assertive" ng-show="!user.founder && user.admin && !data.showDelete">Admin</span>
+        </ion-item>
+      </ion-list>
+
+      <button id="delete-profile" class="button button-block button-assertive"
+              ng-show="profile.founder"
+              ng-click="data.showDelete = !data.showDelete;">
+              Delete a Profile</button>
     </div>
 
   </ion-content>

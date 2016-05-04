@@ -61,6 +61,11 @@
   padding: 16px;
 }
 
+.profile-status {
+	position: absolute;
+	right: 16px;
+}
+
 .img {
   width: 100%;
 }
