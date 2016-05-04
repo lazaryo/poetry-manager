@@ -1,12 +1,29 @@
 <ion-view view-title="Profile">
+  <ion-nav-buttons side="right">
+      <a id="edit" class="button button-icon icon ion-ios-gear-outline"
+         ng-show="visible"
+         ng-click="editProfile(profile.name, profile.email)"></a>
+      <button id="save" class="button button-clear button-positive"
+              ng-hide="visible"
+              ng-click="saveEdits(their.name, their.email)">
+        save
+      </button>
+  </ion-nav-buttons>
   <ion-content class="user">
     <div class="list card">
       <div class="item item-body">
         <img class="full-image" ng-src="{{profile.face}}">
-        <h2>{{profile.name}}</h2>
-        <p>{{profile.email}}</p>
-        <p>Founder: <b>{{profile.founder}}</b></p>
-        <p>Admin: <b>{{profile.admin}}</b></p>
+
+
+
+        <h2 ng-show="visible">{{profile.name}}</h2>
+        <input type="text" ng-hide="visible" ng-model="their.name" value="{{their.name}}">
+        <p ng-show="visible">{{profile.email}}</p>
+        <input type="text" ng-hide="visible" ng-model="their.email" value="{{their.email}}">
+
+        <p ng-show="profile.founder" class="calm">Founder</p>
+        <p ng-show="profile.admin" class="assertive">Admin</p>
+        <p class="strike" ng-hide="profile.admin"><s>Admin</s></p>
         <a style="margin:0 auto"
            class="button button-block button-clear button-dark"
            ng-click="$watch(takePicture(profile.$id))">

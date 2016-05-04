@@ -22,12 +22,54 @@ angular.module('poetryManager.controllers', ['firebase'])
 
 .controller('profileCtrl', function($scope, $stateParams, $firebaseArray, $cordovaCamera, $ionicActionSheet, $firebaseObject, Accounts, ImageUpload) {
   // console.log($stateParams);
-  
+
   $scope.accounts = Accounts.profiles();
   $scope.account = Accounts.get($stateParams.profileId);
   var unique = new Firebase('https://poetry-prototype.firebaseio.com/profiles/');
   var uniqueRef = unique.child($scope.account);
   $scope.profile = $firebaseObject(uniqueRef);
+
+  $scope.visible = true;
+  $scope.editProfile = function(name, email) {
+    $scope.visible = false;
+    $scope.their = {};
+    $scope.their.name = name;
+    $scope.their.email = email;
+  }
+
+  $scope.saveEdits = function(val, val2) {
+    $scope.visible = true;
+    $scope.newProfile = {};
+    $scope.newProfile.name = val;
+    $scope.newProfile.email = val2;
+    var new_unique = new Firebase('https://poetry-prototype.firebaseio.com/profiles/' + $scope.account);
+    new_unique.update({name: $scope.newProfile.name, email: $scope.newProfile.email});
+    if ($scope.newProfile.email == $scope.profile.email) {
+      console.log('Email is the same.');
+    } else {
+      var ref = new Firebase("https://poetry-prototype.firebaseio.com");
+      ref.changeEmail({
+        oldEmail: $scope.profile.email,
+        newEmail: $scope.newProfile.email,
+        password: "password"
+      }, function(error) {
+        if (error) {
+          switch (error.code) {
+            case "INVALID_PASSWORD":
+              console.log("The specified user account password is incorrect.");
+              break;
+            case "INVALID_USER":
+              console.log("The specified user account does not exist.");
+              break;
+            default:
+              console.log("Error creating user:", error);
+          }
+        } else {
+          console.log("User email changed successfully!");
+        }
+      });
+    }
+  }
   
   $scope.getUser = function () {
     var ref =  new Firebase('https://poetry-prototype.firebaseio.com/')
