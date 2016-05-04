@@ -6,15 +6,13 @@
       <button id="save" class="button button-clear button-positive"
               ng-hide="visible"
               ng-click="saveEdits(their.name, their.email)">
-        save
+              save
       </button>
   </ion-nav-buttons>
   <ion-content class="user">
     <div class="list card">
       <div class="item item-body">
         <img class="full-image" ng-src="{{profile.face}}">
-
-
 
         <h2 ng-show="visible">{{profile.name}}</h2>
         <input type="text" ng-hide="visible" ng-model="their.name" value="{{their.name}}">
