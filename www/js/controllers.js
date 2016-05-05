@@ -29,10 +29,9 @@ angular.module('poetryManager.controllers', ['firebase'])
 
    // Confirm Delete
     $scope.confirmDelete = function(theirId, name, email) {
-      // An elaborate, custom popup
       var myPopup = $ionicPopup.show({
         title: 'Enter pasword',
-        template: 'Confirm deletion with password<br><input type="password" ng-model="data.password">',
+        template: 'Confirm deletion with password<br><br><input style="padding-left:10px" type="password" ng-model="data.password">',
         scope: $scope,
         buttons: [
           { text: 'Cancel' },
@@ -43,6 +42,28 @@ angular.module('poetryManager.controllers', ['firebase'])
               if ($scope.data.password != 'password') {
                 e.preventDefault();
               } else {
+                var removePerson = new Firebase('https://poetry-prototype.firebaseio.com/profiles/' + theirId);
+                removePerson.remove();
+                var ref = new Firebase("https://poetry-prototype.firebaseio.com");
+                ref.removeUser({
+                  email: email,
+                  password: "password"
+                }, function(error) {
+                  if (error) {
+                    switch (error.code) {
+                      case "INVALID_USER":
+                        console.log("The specified user account does not exist.");
+                        break;
+                      case "INVALID_PASSWORD":
+                        console.log("The specified user account password is incorrect.");
+                        break;
+                      default:
+                        console.log("Error removing user:", error);
+                    }
+                  } else {
+                    console.log("User account deleted successfully!");
+                  }
+                });
                 console.log('User ID: ' + theirId + '\nName: ' + name + '\nEmail: ' + email);
                 // delete profile then close popup
                 myPopup.close();
@@ -52,43 +73,6 @@ angular.module('poetryManager.controllers', ['firebase'])
         ]
       });
      };
-
-   // $scope.showConfirm = function(theirId, name, email) {
-   //   var confirmPopup = $ionicPopup.confirm({
-   //    title: 'Delete ' + name,
-   //     template: 'Are you sure you want to delete this profile?'
-   //   });
-
-   //   confirmPopup.then(function(res) {
-   //     if(res) {
-   //        var removePerson = new Firebase('https://poetry-prototype.firebaseio.com/profiles/' + theirId);
-   //        removePerson.remove();
-   //        var ref = new Firebase("https://poetry-prototype.firebaseio.com");
-   //        ref.removeUser({
-   //          email: email,
-   //          password: "password"
-   //        }, function(error) {
-   //          if (error) {
-   //            switch (error.code) {
-   //              case "INVALID_USER":
-   //                console.log("The specified user account does not exist.");
-   //                break;
-   //              case "INVALID_PASSWORD":
-   //                console.log("The specified user account password is incorrect.");
-   //                break;
-   //              default:
-   //                console.log("Error removing user:", error);
-   //            }
-   //          } else {
-   //            console.log("User account deleted successfully!");
-   //          }
-   //        });
-   //        console.log('You want to delete ' + name);
-   //     } else {
-   //        console.log('You don\'t want to delete ' + name);
-   //     }
-   //   });
-   // };
 
   $scope.removeProfile = function() {
     $scope.idk = 'Removed Profile';
