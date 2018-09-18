@@ -1,0 +1,8 @@
+{
+  "name": "verify-v2",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "pro_id": "eb1c53ca"
+}

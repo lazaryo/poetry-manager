@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{name}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+<!--    <pre>{{data | json}}</pre>-->
+
+    <ion-card padding>
+        <ion-title>{{data.displayName}}</ion-title>
+
+        <img padding-bottom src={{data.profilePicture}} title={{data.displayName}}>
+
+        <button *ngIf="data.admin == true" ion-button outline small color="danger">Admin</button>
+        <button *ngIf="data.verifiedUser == true" ion-button outline small color="stable">Verified</button>
+    </ion-card>
+
+    <ion-list no-padding>
+        <ion-item>
+            <ion-label>Owner</ion-label>
+            <ion-toggle disabled checked={{data.owner}}></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Admin</ion-label>
+            <ion-toggle checked={{data.admin}}></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Verify User</ion-label>
+            <ion-toggle disabled={{data.verifiedUser}} checked={{data.admin}}></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Delete User</ion-label>
+            <ion-toggle color="danger"></ion-toggle>
+        </ion-item>
+    </ion-list>
+</ion-content>

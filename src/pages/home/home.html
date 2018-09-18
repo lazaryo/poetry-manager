@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Verify</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="afAuth.user | async as user; else showLogin">
+        <h4>Hello, {{ user.displayName }}!</h4>
+    </div>
+    
+    <button ion-button block (click)="verifyPoems()" color="danger">Verify Poems</button>
+    <button ion-button block (click)="manageUsers()" color="danger">Manage Users</button>
+</ion-content>

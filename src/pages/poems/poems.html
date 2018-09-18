@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button color="dark" menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>
+            All Poems
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <p>This is entire list of poems that have been verified. You can either delete, revoke verification, or view the poem here.</p>
+    
+<!--
+    <div *ngFor="let poem of poems | async">
+        <pre>{{poem | json}}</pre>
+    </div>
+-->
+
+    <ion-list no-padding>
+        <ion-item-sliding *ngFor="let poem of poems | async">
+            <ion-item>
+                <h2 [ngClass]="{'normal' : !poem.disappear, 'highlight': poem.disappear}">{{poem.title}}</h2>
+                <p ion-text color="primary">{{poem.author}}</p>
+            </ion-item>
+            <ion-item-options side="left">
+                <button ion-button color="danger" (click)="removePoem(poem)">
+                    <ion-icon name="trash"></ion-icon>
+                    Delete
+                </button>
+            </ion-item-options>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="revokePoem(poem)">
+                    <ion-icon name="lock"></ion-icon>
+                    Revoke
+                </button>
+                <button ion-button color="primary" (click)="viewPoem(poem)">
+                    <ion-icon name="open"></ion-icon>
+                    View
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

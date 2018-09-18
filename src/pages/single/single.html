@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle="left" start>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        
+        <ion-title>
+            {{title}}
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding ngClass="selectable">
+
+    <ion-card>
+        <ion-card-header>
+            <h2>{{ author }}</h2>
+            <p>{{ key }}</p>
+            <small>{{ formType }}</small>
+        </ion-card-header>
+
+        <ion-card-content>
+            <p ion-text>
+                <span *ngFor="let line of lines | lines">
+                    {{line.value}}<br><br *ngIf="formType == 'Prose'">
+                </span>
+            </p>
+        </ion-card-content>
+    </ion-card>
+    
+    <p>User ID of the publisher</p>
+    <p>{{userID}}</p>
+</ion-content>
