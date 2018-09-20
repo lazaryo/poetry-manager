@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="poetry">
         <ion-title>{{name}}</ion-title>
     </ion-navbar>
 </ion-header>
@@ -13,29 +13,36 @@
 
         <img padding-bottom src={{data.profilePicture}} title={{data.displayName}}>
 
+        <button *ngIf="data.owner == true" ion-button outline small color="owner">Owner</button>
         <button *ngIf="data.admin == true" ion-button outline small color="danger">Admin</button>
-        <button *ngIf="data.verifiedUser == true" ion-button outline small color="stable">Verified</button>
+        <button *ngIf="data.mod == true" ion-button outline small color="mod">Mod</button>
+        <button *ngIf="data.verifiedUser == true" ion-button outline small color="primary">Verified</button>
     </ion-card>
 
     <ion-list no-padding>
         <ion-item>
             <ion-label>Owner</ion-label>
-            <ion-toggle disabled checked={{data.owner}}></ion-toggle>
+            <ion-toggle color="owner" disabled checked={{data.owner}}></ion-toggle>
         </ion-item>
 
         <ion-item>
             <ion-label>Admin</ion-label>
-            <ion-toggle checked={{data.admin}}></ion-toggle>
+            <ion-toggle color="danger" disabled={{!cu.owner}} checked={{data.admin}}></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Mod</ion-label>
+            <ion-toggle color="mod" disabled={{!cu.admin}} checked={{data.mod}}></ion-toggle>
         </ion-item>
 
         <ion-item>
             <ion-label>Verify User</ion-label>
-            <ion-toggle disabled={{data.verifiedUser}} checked={{data.admin}}></ion-toggle>
+            <ion-toggle color="primary" disabled={{data.verifiedUser}} checked={{data.verifiedUser}}></ion-toggle>
         </ion-item>
 
         <ion-item>
             <ion-label>Delete User</ion-label>
-            <ion-toggle color="danger"></ion-toggle>
+            <ion-toggle color="danger" disabled={{!cu.admin}}></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

@@ -1,6 +1,6 @@
 <ion-header>
-    <ion-navbar>
-        <button ion-button icon-only menuToggle>
+    <ion-navbar color="poetry">
+        <button ion-button icon-only menuToggle color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
 
@@ -13,6 +13,8 @@
         <h4>Hello, {{ user.displayName }}!</h4>
     </div>
     
-    <button ion-button block (click)="verifyPoems()" color="danger">Verify Poems</button>
-    <button ion-button block (click)="manageUsers()" color="danger">Manage Users</button>
+    <p>This is the admin app for managing the Poetry app.</p>
+    
+    <button ion-button block (click)="verifyPoems()" color="poetry">Verify Poems</button>
+    <br><button ion-button block (click)="manageUsers()" color="poetry">Manage Users</button>
 </ion-content>

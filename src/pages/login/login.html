@@ -1,11 +1,39 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Firebase Login</ion-title>
+    <ion-navbar color="poetry">
+        <ion-title>Verify Login</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     <h3>Login</h3>
     
-    <button ion-button block color="danger" (click)="loginWithGoogle()"><ion-icon name="logo-google"></ion-icon>&nbsp;Login</button>
+    <ion-grid>
+        <form (ngSubmit)="loginWithEmail()">
+            <ion-row no-padding>
+                <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+                    <ion-item no-padding fixed>
+                        <ion-label>Email</ion-label>
+                        <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row no-padding>
+                <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+                    <ion-item no-padding fixed>
+                        <ion-label>Password</ion-label>
+                        <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row no-padding>
+                <ion-col no-padding col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+                    <button ion-button block color="poetry" type="submit">
+                        Login
+                    </button>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ion-grid>
 </ion-content>

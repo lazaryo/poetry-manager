@@ -14,6 +14,9 @@ import { HomePage } from '../home/home';
 })
 
 export class LoginPage {
+    email: any;
+    password: any;
+    
     constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public _lp: LoginProvider, public toastCtrl: ToastController) {
     }
 
@@ -32,9 +35,9 @@ export class LoginPage {
         this.navCtrl.setRoot(HomePage, {}, {animate: true, animation: 'wp-transition', direction: 'forward'});
     }
     
-    loginWithGoogle() {
-        console.log('Logging in with Google')
-        this._lp.signInWithGoogle();
+    loginWithEmail() {
+        console.log('Logging in with an Email');
+        this._lp.signInWithEmail(this.email, this.password);
         this.loggedInToast();
     }
 }

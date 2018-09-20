@@ -28,9 +28,9 @@ export class VerifyPage {
             this.poemsRef = db.list('poems');
             // Use snapshotChanges().map() to store the key
             this.poems = this.poemsRef.snapshotChanges().pipe(
-                map(changes => 
+                map(changes => {
                     changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-                )
+                })
             );
         }
     

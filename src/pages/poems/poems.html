@@ -1,6 +1,6 @@
 <ion-header>
-    <ion-navbar>
-        <button ion-button color="dark" menuToggle>
+    <ion-navbar color="poetry">
+        <button ion-button color="dark" menuToggle color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
 
@@ -24,7 +24,7 @@
         <ion-item-sliding *ngFor="let poem of poems | async">
             <ion-item>
                 <h2 [ngClass]="{'normal' : !poem.disappear, 'highlight': poem.disappear}">{{poem.title}}</h2>
-                <p ion-text color="primary">{{poem.author}}</p>
+                <p ion-text color="poetry">{{poem.author}}</p>
             </ion-item>
             <ion-item-options side="left">
                 <button ion-button color="danger" (click)="removePoem(poem)">
@@ -37,7 +37,7 @@
                     <ion-icon name="lock"></ion-icon>
                     Revoke
                 </button>
-                <button ion-button color="primary" (click)="viewPoem(poem)">
+                <button ion-button color="poetry" (click)="viewPoem(poem)">
                     <ion-icon name="open"></ion-icon>
                     View
                 </button>
