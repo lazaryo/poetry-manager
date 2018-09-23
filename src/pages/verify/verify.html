@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="poetry">
+    <ion-navbar padding-top color="poetry">
         <button ion-button color="secondary" menuToggle color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -12,17 +12,14 @@
 
 
 <ion-content padding>
-    <p>Check the box to verify each poem before it can be viewed in the Poetry App. You can slide left on each item to delete the poem, or you can slide right to view the poem before veifying of deleting the poem.</p>
+    <p ion-text>Check the box to verify each poem before it can be viewed in the Poetry App. You can slide left on each item to delete the poem, or you can slide right to view the poem before veifying of deleting the poem.</p>
   
     <ion-list no-padding>
         <div *ngFor="let poem of poems | async">
-        <ion-item-sliding *ngIf="poem.verified == false">
-            <ion-item>
-                <ion-label>
-                    <h3>{{poem.title}}</h3>
-                    <p><b>{{poem.author}}</b></p>
-                </ion-label>
-                <ion-checkbox color="dark" checked={{poem.verified}} (click)="verifyPoem(poem)"></ion-checkbox>
+        <ion-item-sliding>
+            <ion-item *ngIf="!poem.verified">
+                <h3 ion-text>{{poem.title}}</h3>
+                <button ion-button no-padding clear color="poetry" (click)="authorPage(poem.auid)">{{poem.author}}</button>
             </ion-item>
             <ion-item-options side="left">
                 <button ion-button color="danger" (click)="removePoem(poem)">
@@ -31,6 +28,10 @@
                 </button>
             </ion-item-options>
             <ion-item-options side="right">
+                <button ion-button color="secondary" (click)="verifyPoem(poem)">
+                    <ion-icon name="checkmark"></ion-icon>
+                    Verify
+                </button>
                 <button ion-button color="poetry" (click)="viewPoem(poem)">
                     <ion-icon name="open"></ion-icon>
                     View

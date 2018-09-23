@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="poetry">
+    <ion-navbar padding-top color="poetry">
         <button ion-button icon-only menuToggle color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -12,9 +12,26 @@
     <div *ngIf="afAuth.user | async as user; else showLogin">
         <h4>Hello, {{ user.displayName }}!</h4>
     </div>
-    
+
     <p>This is the admin app for managing the Poetry app.</p>
-    
-    <button ion-button block (click)="verifyPoems()" color="poetry">Verify Poems</button>
-    <br><button ion-button block (click)="manageUsers()" color="poetry">Manage Users</button>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col col-6>
+                <button ion-button block (click)="verifiedPoems()" color="poetry">Verified Poems</button>
+            </ion-col>
+            <ion-col col-6>
+                <button ion-button block (click)="verifyPoems()" color="poetry">Verify Poems</button>
+            </ion-col>
+        </ion-row>
+        
+        <ion-row>
+            <ion-col col-6>
+                <button ion-button block (click)="manageUsers()" color="poetry">Manage Users</button>
+            </ion-col>
+            <ion-col col-6>
+                <button ion-button block (click)="logout()" color="poetry">Logout</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

@@ -28,10 +28,10 @@ export class MyApp {
 
         // used for an example of ngFor and navigation
         this.pages = [
-          { title: 'Home', component: HomePage },
-          { title: 'Verified Poems', component: PoemsPage },
-          { title: 'Verify Poems', component: VerifyPage },
-          { title: 'Manage Users', component: UsersPage },
+            { title: 'Home', component: HomePage },
+            { title: 'Verified Poems', component: PoemsPage },
+            { title: 'Verify Poems', component: VerifyPage },
+            { title: 'Manage Users', component: UsersPage },
         ];
         
         this.checkingUser();

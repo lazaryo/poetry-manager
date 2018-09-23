@@ -4,7 +4,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 
+import { LoginPage } from '../login/login';
 import { VerifyPage } from '../verify/verify';
+import { PoemsPage } from '../poems/poems';
 import { UsersPage } from '../users/users';
 
 @Component({
@@ -21,6 +23,17 @@ export class HomePage {
     
     ionViewDidLoad() {
         console.log('ionViewDidLoad HomePage');
+    }
+    
+    logout() {
+        window.localStorage.removeItem('currentuser');
+        window.localStorage.removeItem('provider');
+        this.afAuth.auth.signOut();
+        this.navCtrl.setRoot(LoginPage, {}, {animate: true, animation: 'wp-transition', direction: 'forward'});
+    }
+    
+    verifiedPoems() {
+        this.navCtrl.push(PoemsPage, {}, {animate: true, animation: 'wp-transition', direction: 'forward'});
     }
     
     verifyPoems() {

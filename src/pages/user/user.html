@@ -1,48 +1,61 @@
 <ion-header>
-    <ion-navbar color="poetry">
+    <ion-navbar padding-top color="poetry">
         <ion-title>{{name}}</ion-title>
     </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-<!--    <pre>{{data | json}}</pre>-->
-
     <ion-card padding>
-        <ion-title>{{data.displayName}}</ion-title>
+        <ion-title no-padding>{{data.displayName}}</ion-title>
+        <p ion-text padding-top color="danger" *ngIf="cu.key == data.key">This is your profile.</p>
 
-        <img padding-bottom src={{data.profilePicture}} title={{data.displayName}}>
+        <img padding-top padding-bottom src={{data.profilePicture}} title={{data.displayName}}>
+        
+        <ion-card-content no-padding>
+            <p ion-text>This User Key: <span ion-text color="danger">{{data.key}}</span></p>
+            <p ion-text padding-bottom>Current User Key: <span ion-text color="danger">{{cu.key}}</span></p>
+        </ion-card-content>
 
-        <button *ngIf="data.owner == true" ion-button outline small color="owner">Owner</button>
-        <button *ngIf="data.admin == true" ion-button outline small color="danger">Admin</button>
-        <button *ngIf="data.mod == true" ion-button outline small color="mod">Mod</button>
-        <button *ngIf="data.verifiedUser == true" ion-button outline small color="primary">Verified</button>
+        <button *ngIf="data.owner" ion-button outline small color="owner">Owner</button>
+        <button *ngIf="data.admin" ion-button outline small color="danger">Admin</button>
+        <button *ngIf="data.mod" ion-button outline small color="mod">Mod</button>
+        <button *ngIf="data.verifiedUser" ion-button outline small color="primary">Verified</button>
     </ion-card>
 
-    <ion-list no-padding>
-        <ion-item>
-            <ion-label>Owner</ion-label>
-            <ion-toggle color="owner" disabled checked={{data.owner}}></ion-toggle>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Admin</ion-label>
-            <ion-toggle color="danger" disabled={{!cu.owner}} checked={{data.admin}}></ion-toggle>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Mod</ion-label>
-            <ion-toggle color="mod" disabled={{!cu.admin}} checked={{data.mod}}></ion-toggle>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Verify User</ion-label>
-            <ion-toggle color="primary" disabled={{data.verifiedUser}} checked={{data.verifiedUser}}></ion-toggle>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Delete User</ion-label>
-            <ion-toggle color="danger" disabled={{!cu.admin}}></ion-toggle>
-        </ion-item>
-    </ion-list>
+    <button ion-button block
+        margin-top
+        margin-bottom
+        color="danger"
+        [disabled]="cu.key == data.key || cu.owner == false || data.owner && data.admin"
+        *ngIf="data.admin == false"
+        (click)="changeAdminStatus(cu, data, true)">
+        Add Admin Status
+    </button>
+    
+    <button ion-button block
+        margin-top
+        margin-bottom
+        color="danger"
+        [disabled]="cu.key == data.key || cu.owner == false || data.owner && data.admin"
+        *ngIf="data.admin == true"
+        (click)="changeAdminStatus(cu, data, false)">
+        Remove Admin Status
+    </button>
+    
+    <button ion-button block
+        color="poetry"
+        [disabled]="cu.key == data.key || data.owner"
+        *ngIf="data.verifiedUser == false"
+        (click)="changeUserVerification(cu, data, true)">
+        Verify User
+    </button>
+    
+    <button ion-button block
+        color="poetry"
+        [disabled]="cu.key == data.key || data.owner"
+        *ngIf="data.verifiedUser == true"
+        (click)="changeUserVerification(cu, data, false)">
+        Remove Verification
+    </button>
 </ion-content>

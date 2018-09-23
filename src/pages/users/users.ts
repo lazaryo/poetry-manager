@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { UserPage } from '../user/user';
@@ -27,7 +26,7 @@ export class UsersPage {
         // Use snapshotChanges().map() to store the key
         this.profiles = this.profilesRef.snapshotChanges().pipe(
             map(changes => 
-                changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+                changes['map'](c => ({ key: c.payload.key, ...c.payload.val() }))
             )
         );
     }
@@ -38,6 +37,22 @@ export class UsersPage {
     
     viewUser(user) {
         this.navCtrl.push(UserPage, user);
+    }
+    
+    providerColor(p) {
+        if (p == 'email') {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    verifiedColor(p) {
+        if (p) {
+            return true
+        } else {
+            return false
+        }
     }
 
 }

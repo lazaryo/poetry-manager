@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="poetry">
+    <ion-navbar padding-top color="poetry">
         <button ion-button icon-only menuToggle color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -15,7 +15,8 @@
                 <img src={{user.profilePicture}}>
             </ion-thumbnail>
             <h2>{{user.displayName}}</h2>
-            <p>Provider: <b>{{user.provider}}</b></p>
+            <p>Provider: <b ion-text [color]="providerColor(user.provider) ? 'email' : 'google'">{{user.provider}}</b></p>
+            <p>Verified: <b ion-text [color]="verifiedColor(user.verifiedUser) ? 'verified' : 'danger'">{{user.verifiedUser}}</b></p>
             <button ion-button clear item-end color="poetry" (click)="viewUser(user)">View</button>
         </ion-item>
     </ion-list>

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { SinglePage } from '../single/single';
+import { UserPage } from '../user/user';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,7 @@ import { SinglePage } from '../single/single';
 export class PoemsPage {
     poems: Observable<any>;
     poemsRef: any;
+    user: any;
     
     constructor(
         public navCtrl: NavController,
@@ -27,13 +29,23 @@ export class PoemsPage {
         // Use snapshotChanges().map() to store the key
         this.poems = this.poemsRef.snapshotChanges().pipe(
           map(changes => 
-            changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+            changes['map'](c => ({ key: c.payload.key, ...c.payload.val() }))
           )
         );
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad VerifiedPage');
+    }
+    
+    authorPage(authorKey) {
+        this.db.object('users/' + authorKey).valueChanges().subscribe(response => {
+            console.log("Author Key:", authorKey);
+            console.log("Response:", response);
+            response["key"] = authorKey;
+            
+            this.navCtrl.push(UserPage, response, {animate: true, animation: 'wp-transition', direction: 'forward'});
+        });
     }
     
     removePoem(poem) {
@@ -62,7 +74,7 @@ export class PoemsPage {
     
     revokePoem(poem) {
         let confirm = this.alertCtrl.create({
-            title: 'Revoke verification?',
+            title: 'Revoke ' + poem.title + '?',
             message: 'Once revoked, ' + poem.title + ' by ' + poem.author + ' will have to be verified again to show in the Poetry App.',
             buttons: [
                 {

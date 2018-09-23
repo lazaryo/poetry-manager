@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 
 import { SinglePage } from '../single/single';
+import { UserPage } from '../user/user';
 
 @IonicPage()
 @Component({
@@ -17,21 +18,23 @@ export class VerifyPage {
     poems: Observable<any>;
     verifyP: any;
     removeP: any;
+    isVerified: any = false;
     
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
         public afAuth: AngularFireAuth,
         public db: AngularFireDatabase,
+        public toastCtrl: ToastController,
         public alertCtrl: AlertController) {
 
-            this.poemsRef = db.list('poems');
-            // Use snapshotChanges().map() to store the key
-            this.poems = this.poemsRef.snapshotChanges().pipe(
-                map(changes => {
-                    changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-                })
-            );
+                    this.poemsRef = db.list('poems');
+        // Use snapshotChanges().map() to store the key
+        this.poems = this.poemsRef.snapshotChanges().pipe(
+          map(changes => 
+            changes['map'](c => ({ key: c.payload.key, ...c.payload.val() }))
+          )
+        );
         }
     
     ionViewDidLoad() {
@@ -39,12 +42,28 @@ export class VerifyPage {
     }
     
     verifyPoem(poem) {
-        console.log('Poem ID: ' + poem.key);
-        console.log(poem.title + ' by ' + poem.author + ' has been verified.');
-        console.log('Verified: ' + !poem.verified);
-        
-        this.verifyP = this.db.object('/poems/' + poem.key);
-        this.verifyP.update({ verified: true });
+        let confirm = this.alertCtrl.create({
+            title: 'Verify ' + poem.title + '?',
+            message: 'Once verified, ' + poem.title + ' by ' + poem.author + ' can been seen by everyone in the app.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: () => {
+                        console.log('You have changed your mind.');
+                    }
+                },
+                {
+                    text: 'Verify',
+                    handler: () => {
+                        this.notificationToast(poem.title + ' by ' + poem.author + ' has been verified.');
+                        this.verifyP = this.db.object('/poems/' + poem.key);
+                        this.verifyP.update({ verified: true });
+                    }
+                }
+            ]
+        });
+            
+        confirm.present();
     }
     
     removePoem(poem) {
@@ -61,7 +80,7 @@ export class VerifyPage {
                 {
                     text: 'Delete',
                     handler: () => {
-                        console.log(poem.title + ' by ' + poem.author + ' has been deleted.');
+                        this.notificationToast(poem.title + ' by ' + poem.author + ' has been deleted.');
                         this.removeP = this.db.object('/poems/' + poem.key);
                         this.removeP.remove();
                     }
@@ -75,5 +94,24 @@ export class VerifyPage {
         console.log(poem);
         this.navCtrl.push(SinglePage, poem);
     }
-
+    
+    notificationToast(message) {
+        const toast = this.toastCtrl.create({
+            message: message,
+            showCloseButton: true,
+            closeButtonText: 'Ok',
+            position: 'top'
+        });
+        toast.present();
+    }
+    
+    authorPage(authorKey) {
+        this.db.object('users/' + authorKey).valueChanges().subscribe(response => {
+            console.log("Author Key:", authorKey);
+            console.log("Response:", response);
+            response["key"] = authorKey;
+            
+            this.navCtrl.push(UserPage, response, {animate: true, animation: 'wp-transition', direction: 'forward'});
+        });
+    }
 }

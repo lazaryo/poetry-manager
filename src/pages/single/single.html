@@ -1,9 +1,9 @@
 <ion-header>
-    <ion-navbar color="poetry">
+    <ion-navbar padding-top color="poetry">
         <button ion-button menuToggle="left" start color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
-        
+
         <ion-title>
             {{title}}
         </ion-title>
@@ -14,12 +14,6 @@
 <ion-content padding ngClass="selectable">
 
     <ion-card>
-        <ion-card-header>
-            <h2>{{ author }}</h2>
-            <p>{{ key }}</p>
-            <small>{{ formType }}</small>
-        </ion-card-header>
-
         <ion-card-content>
             <p ion-text>
                 <span *ngFor="let line of lines | lines">
@@ -27,8 +21,25 @@
                 </span>
             </p>
         </ion-card-content>
+
+        <ion-row class="cardfooter">
+            <ion-col>
+                <h2><button ion-button clear (click)="authorPage(userID)" color="email">{{ author }}</button></h2>
+                <p ion-text padding>{{ formType }}</p>
+            </ion-col>
+        </ion-row>
     </ion-card>
-    
-    <p>User ID of the publisher</p>
-    <p>{{userID}}</p>
+
+    <ion-card>
+        <ion-item>
+            <ion-card-header no-padding padding-bottom>
+                Keys
+            </ion-card-header>
+            <h2>Poem Key</h2>
+
+            <p ion-text margin-bottom>{{key}}</p>
+            <h2>Author Key</h2>
+            <p>{{userID}}</p>
+        </ion-item>
+    </ion-card>
 </ion-content>

@@ -1,3 +1,21 @@
 page-poems {
-
+    .item-wrapper {
+        ion-item.item {
+            padding-left: 0 !important;
+        }
+    }
+    .active-options-left {
+        ion-item.item {
+            padding-left: 16px !important;
+        }
+    }
+    .label {
+        margin-bottom: 0 !important;
+    }
+    .item-button {
+        padding: 0 !important;
+    }
+    .item-button:hover {
+        background: transparent !important;
+    }
 }

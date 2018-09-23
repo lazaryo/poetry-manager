@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from '@angular/fire/database';
 
+import { UserPage } from '../user/user';
+
 @IonicPage()
 @Component({
     selector: 'page-single',
@@ -29,5 +31,14 @@ export class SinglePage {
     ionViewDidLoad() {
         console.log('ionViewDidLoad SinglePage');
     }
-
+    
+    authorPage(authorKey) {
+        this._af.object('users/' + authorKey).valueChanges().subscribe(response => {
+            console.log("Author Key:", authorKey);
+            console.log("Response:", response);
+            response["key"] = authorKey;
+            
+            this.navCtrl.push(UserPage, response, {animate: true, animation: 'wp-transition', direction: 'forward'});
+        });
+    }
 }
