@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 //import AuthProvider = firebase.auth.AuthProvider;
@@ -10,6 +9,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 export class LoginProvider {
     public userF: firebase.User;
     public newUserInfo: any;
+    loggedIn: any;
     
 	constructor(public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
 		afAuth.authState.subscribe(user => {
@@ -44,11 +44,24 @@ export class LoginProvider {
             window.localStorage.setItem('currentuser', currentuser);
             let provider = 'email';
             window.localStorage.setItem('provider', provider);
+            
+            this.db.object('users/' + currentuser).valueChanges().subscribe(res => {
+                if (res['admin'] == false) {
+                    this.afAuth.auth.signOut();
+                    window.localStorage.removeItem('currentuser');
+                    window.localStorage.removeItem('provider');
+                    this.loggedIn = false
+                } else {
+                    this.loggedIn = true
+                }
+            });
         })
         .catch(function(error) {
             // Handle Errors here.
             var errorMessage = error.message;
             console.log(errorMessage);
         });
+        
+        return this.loggedIn;
     }
 }

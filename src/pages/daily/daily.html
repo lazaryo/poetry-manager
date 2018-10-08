@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-navbar padding-top color="poetry">
+        <button ion-button icon-only menuToggle color="light">
+            <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Daily Message</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <h4>Messages:</h4>
+    <pre ion-text color="danger">{{messages | json}}</pre>
+    
+    <ion-textarea rows="10" [(ngModel)]="messages.local" placeholder="Modify the daily message here"></ion-textarea>
+    
+    <ion-grid>
+        <ion-row>
+            <ion-col><button ion-button block color="poetry" (click)="saveDaily()">Save Message</button></ion-col>
+            <ion-col><button ion-button block color="poetry" (click)="sendNotif()" disabled>Send Notification</button></ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -37,7 +37,16 @@ export class LoginPage {
     
     loginWithEmail() {
         console.log('Logging in with an Email');
-        this._lp.signInWithEmail(this.email, this.password);
-        this.loggedInToast();
+        if (this._lp.signInWithEmail(this.email, this.password) == true) {
+            this.loggedInToast();
+        } else {
+            console.log('You are not an Admin');
+            
+            this.afAuth.auth.signOut();
+            window.localStorage.removeItem('currentuser');
+            window.localStorage.removeItem('provider');
+            this.email = ''
+            this.password = ''
+        }
     }
 }

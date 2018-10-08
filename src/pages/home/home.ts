@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 
 import { LoginPage } from '../login/login';
 import { VerifyPage } from '../verify/verify';
+import { DailyPage } from '../daily/daily';
+import { AboutPage } from '../about/about';
 import { PoemsPage } from '../poems/poems';
 import { UsersPage } from '../users/users';
 
@@ -30,6 +32,14 @@ export class HomePage {
         window.localStorage.removeItem('provider');
         this.afAuth.auth.signOut();
         this.navCtrl.setRoot(LoginPage, {}, {animate: true, animation: 'wp-transition', direction: 'forward'});
+    }
+    
+    about() {
+        this.navCtrl.push(AboutPage, {}, {animate: true, animation: 'wp-transition', direction: 'forward'});
+    }
+    
+    dailyMessage() {
+        this.navCtrl.push(DailyPage, {}, {animate: true, animation: 'wp-transition', direction: 'forward'});
     }
     
     verifiedPoems() {

@@ -4,12 +4,14 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { DailyPage } from '../pages/daily/daily';
 import { LoginPage } from '../pages/login/login';
 import { UserPage } from '../pages/user/user';
 import { UsersPage } from '../pages/users/users';
 import { PoemsPage } from '../pages/poems/poems';
 import { SinglePage } from '../pages/single/single';
 import { VerifyPage } from '../pages/verify/verify';
+import { AboutPage } from '../pages/about/about';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -39,6 +41,8 @@ export const firebaseConfig = {
         PoemsPage,
         LoginPage,
         VerifyPage,
+        DailyPage,
+        AboutPage,
         LinesPipe
     ],
     imports: [
@@ -57,6 +61,8 @@ export const firebaseConfig = {
         SinglePage,
         PoemsPage,
         VerifyPage,
+        DailyPage,
+        AboutPage,
         LoginPage
     ],
     providers: [
